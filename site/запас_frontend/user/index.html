@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>Главная - ХанаКарама</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+   <link href="mainstyle.css" rel="stylesheet">
+   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</head>
+
+
+<body>
+<!-- шапка -->
+<div class="container" >
+   <div class="block1" >
+      <div class="col-lg-13">
+         <nav class="navbar navbar-default" role="navigation" style="background-color:#5bbad5">
+           <a class="navbar-brand" href="index.html"><img class="logopng" src="img/hana.png"></a>
+            <form id="search">
+               <input type="text" class="block2" id="search_item" placeholder="Поиск по сайту">
+               <input type="submit" value="Поиск" class="block3" >
+            </form>
+            <div class="in_put" >
+               <ul class="nav navbar-nav navbar-right">
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#ffffff;">Вход <b class="caret"></b></a>
+                     <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+                        <li>
+                           <div class="row">
+                              <div class="col-md-12">
+                                 <form  id="login">
+                                    <div class="form-group">
+                                       <input type="text" name="login" placeholder="Логин" class="rounded">
+                                    </div>
+                                    <div class="form-group">
+                                       <input type="password" name="password" placeholder="Пароль" class="rounded">
+                                    </div>
+                                    <div class="checkbox">
+                                       <label><input type="checkbox"> Запомнить меня</label>
+                                    </div>
+                                    <div class="form-group">
+                                       <input type="submit"  value="Вход" style="background-color:#5bbad5" class="rounded">
+                                    </div>
+                                    <a href="register.html">Регистрация</a>
+                                 </form>
+                              </div>
+                           </div>
+                        </li>
+                     </ul>
+                  </li>
+               </ul>
+            </div>
+         </nav>
+      </div>
+   </div>
+</div>
+<script>
+   var userName=sessionStorage.getItem('userName')
+   if(userName){
+      $('div.in_put').html('<ul class="nav navbar-nav navbar-right">\n' +
+              '                  <li class="dropdown">\n' +
+              '                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Профиль<b class="caret"></b></a>\n' +
+              '                     <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">\n' +
+              '                        <li>\n' +
+              '                           <div class="row">\n' +
+              '                              <div class="col-md-12">\n' +
+              '                                 <form  id="log">\n' +
+              '                                    <a href="profile.html">Личный кабинет</a>' +
+              '                                    <div><a href="create_change.html">Добавить обьевления</a></div>' +
+              '                                    <div><a href="redactprofile.html">Редактировать профиль</a></div>' +
+              '                                   <div><input type="submit"  style="background-color:#5bbad5" value="Выход" ></div>' +
+              '                                 </form>\n' +
+              '                              </div>\n' +
+              '                           </div>\n' +
+              '                        </li>\n' +
+              '                     </ul>\n' +
+              '                  </li>\n' +
+              '               </ul>')
+   }
+</script>
+<!-- логирование -->
+<script type="text/javascript">
+   $('#login').on('submit', function (e) {
+      console.log($(this).serialize())
+      e.preventDefault(); //stop default сценарий формы
+      $.ajax({
+         xhrFields: { withCredentials: true },
+         url: 'http://localhost:8080/login',
+         method: 'POST',
+         contenType: 'application/json',
+         data: $(this).serialize(),
+         success: function (resp) {
+            console.log(resp);
+            sessionStorage.setItem('userName', resp.name);
+            document.location.href = 'index.html';
+         },
+         error: function (e) {
+         }
+      })
+
+   })
+
+   $('#log').on('submit', function (e) {
+      e.preventDefault(); //stop default сценарий формы
+      $.ajax({
+         url: 'http://localhost:8080/logout',
+         contenType: 'application/json',
+         xhrFields: { withCredentials: true },
+         success: function (resp) {
+            console.log(resp);
+            sessionStorage.setItem('userName','');
+            document.location.href ='index.html'
+         },
+         error: function (e) {
+         }
+      })
+
+   })
+</script>
+
+<p class="theader"><b>Актуальные объявления</b></p>
+<div class=" block7">
+   <table class="table">
+      <tbody>
+      <tr class="gdsitem">
+         <th scope="col"><img class="itemimg" src="img/1.jpg"></th>
+         <th scope="col"><a href="description.html">Собака в шапке и очках</a></th>
+         <th scope="col" class="lprice">500 р./ч.</th>
+      </tr><tr class="gdsitem gdsitem_2">
+         <th scope="col"><img class="itemimg" src="img/hleb.jpg"></th>
+         <th  scope="col"><a href="description.html">Буханка хлеба</a></th>
+         <th scope="col">2999 р./ч.</th>
+      </tr><tr class="gdsitem">
+         <th scope="col"><img class="itemimg" src="img/nosok.jpg"></th>
+         <th scope="col"><a href="description.html">Чистые носки (правые)</a></th>
+         <th scope="col">10 р./ч.</th>
+      </tr><tr class="gdsitem gdsitem_2">
+         <th scope="col"><img class="itemimg" src="img/moneta.jpg"></th>
+         <th scope="col"><a href="description.html">Монета</a></th>
+         <th scope="col">1 р./ч.</th>
+      </tr>
+      <tr class="gdsitem">
+         <th scope="col"><img class="itemimg" src="img/platye.jpg"></th>
+         <th scope="col"><a href="description.html">Платье для фотосессиии</a></th>
+         <th scope="col">100 р./ч.</th>
+      </tr>
+      <tr class="gdsitem gdsitem_2">
+         <th scope="col"><img class="itemimg" src="img/kot.jpg"></th>
+         <th scope="col"><a href="description.html">Летающий кот</a></th>
+         <th scope="col">9999 р./ч.</th>
+      </tr>
+      </tbody>
+   </table>
+</div>
+
+<!-- search-->
+<script>
+   $('#search').on('submit',function(e){
+      var t =$('#search_item').val();
+      e.preventDefault()
+      $.ajax({
+         url: 'http://localhost:8080/',
+         method: 'GET',
+         contenType: 'application/json',
+         success: function (resp) {
+            console.log(resp);
+            console.log(t);
+            var name = [];
+            resp.forEach(item =>{
+               name.push(item['title'])
+            });
+            sessionStorage.setItem('item',name);
+            sessionStorage.setItem('search_item',t);
+            document.location.href='index.html';
+         },
+         error: function (e) {
+            console.error(e)
+      }
+   })
+   })
+   var item = sessionStorage.getItem('item');
+   var search_item1 = sessionStorage.getItem('search_item')
+   console.log(search_item1);
+   if(search_item1){
+      var temp;
+      var b = 0
+      temp = item.split(',')
+      console.log(temp)
+      temp.forEach(i =>{
+         if(i == search_item1){
+            $('table.table').html('<tr class="gdsitem'+b+'">\n' +
+                    '         <th scope="col"><img class="itemimg" src="img/1.jpg"></th>\n' +
+                    '         <th scope="col"><a href="description.html">'+i+'</a></th>\n' +
+                    '         <th scope="col">30 р./ч.</th>\n' +
+                    '      </tr>'
+            )
+            sessionStorage.setItem('search_item2','');
+            }
+         b+=1;
+      })
+
+   }
+   else {
+      if(item){
+         var temp;
+         var b = 0
+         temp = item.split(',')
+         console.log(temp)
+         temp.forEach(i =>{
+            $('table.table').append('<tr class="gdsitem'+b+'">\n' +
+                    '         <th scope="col"><img class="itemimg" src="img/1.jpg"></th>\n' +
+                    '         <th scope="col"><a href="description.html">'+i+'</a></th>\n' +
+                    '         <th scope="col">30 р./ч.</th>\n' +
+                    '      </tr>'
+
+            )
+            b+=1;
+         })
+
+      }
+   }
+</script>
+<!-- endsearch-->
+</body>
+</html>
